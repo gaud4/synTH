@@ -25,6 +25,11 @@
         "type": "git",
         "url": "git+https://github.com/synTH/synTH.git"
     },
-    "devDependencies": {},
-    "dependencies": {}
+    "dependencies": {
+        "vue": "^3.5.12"
+    },
+    "devDependencies": {
+        "@types/node": "^22.8.7",
+        "@types/vue": "^1.0.31"
+    }
 }

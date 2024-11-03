@@ -8,7 +8,7 @@
         <div id="Home__logo-container">
             <div id="Home__logo">
                 <div id="Home__app-name">
-                    <span id="synTH-light">synTH&nbsp;</span>
+                    <span id="synTH-light">synTH</span>
                 </div>
                 <div id="Home__app-slogan">
                     <span id="Home__slogan-light">Extend Your</span>

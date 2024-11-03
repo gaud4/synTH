@@ -143,7 +143,7 @@ export default class ConnectionManager extends Emittable {
     private _roomName: string | null;
     private _roomOwner: string | null;
 
-    private _timesync: Timesync;
+    private _timesync: Timesync.Timesync;
 
     private _expectedAudioFileSize: number | null;
     private _receivedChunks: ArrayBuffer[];
@@ -204,7 +204,7 @@ export default class ConnectionManager extends Emittable {
         });
     }
 
-    private createTimesyncInstance(peers: string[]): Timesync {
+    private createTimesyncInstance(peers: string[]): Timesync.Timesync {
         const timesync = Timesync.create({
             peers: [...peers],
             interval: null, // Disable automatic synchronization
@@ -262,7 +262,7 @@ export default class ConnectionManager extends Emittable {
         });
     }
 
-    private setupTimesync(timesync: Timesync) {
+    private setupTimesync(timesync: Timesync.Timesync) {
         // Override send function to hook up with our data channel as the transport
         timesync.send = (to, data, timeout): Promise<void> => {
             return new Promise((resolve, reject) => {

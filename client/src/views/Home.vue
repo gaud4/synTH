@@ -29,7 +29,7 @@
 <script lang="ts">
 import RoomConnectionForm from "@/components/room/RoomConnectionForm.vue";
 
-import Vue from 'vue';
+import Vue from "vue";
 export default Vue.extend({
     name: "Home",
     components: {

@@ -1,0 +1,95 @@
+version: "3.2"
+services:
+  reverse-proxy:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./reverse-proxy
+    ports:
+      - "3050:80"
+    networks:
+      - app-network
+    hostname: reverse-proxy
+    container_name: synTH_reverse_proxy
+    depends_on:
+      - "room-server"
+      - "client"
+      - "client-vue3"
+  room-server:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./room-server
+    volumes:
+      - /app/node_modules
+      - ./room-server:/app
+    environment:
+      - CLIENT_HOST_PATHS=["http://localhost:3050", "http://localhost:3051"]
+    networks:
+      - app-network
+    hostname: room-server
+    container_name: synTH_room_server
+  peer-server:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./peer-server
+    networks:
+      - app-network
+    hostname: peer-server
+    container_name: synTH_peer_server
+  client:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./client
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - VUE_APP_ROOM_SERVER_URL=/room-server
+      - VUE_APP_PEERJS_HOST=/
+      - VUE_APP_PEERJS_PATH=/peer-server
+      - VUE_APP_PEERJS_PORT=3050
+      - VUE_APP_PEERJS_SECURE=false
+    networks:
+      - app-network
+    hostname: client
+    container_name: synTH_client
+  client-vue3:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./client-vue3
+    ports:
+      - "3051:8080"
+    volumes:
+      - /app/node_modules
+      - ./client-vue3:/app
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - VITE_APP_ROOM_SERVER_URL=http://localhost:3050/room-server
+      - VITE_APP_PEERJS_HOST=localhost
+      - VITE_APP_PEERJS_PATH=/peer-server
+      - VITE_APP_PEERJS_PORT=3050
+      - VITE_APP_PEERJS_SECURE=false
+    networks:
+      - app-network
+    hostname: client-vue3
+    container_name: synTH_client_vue3
+  redis:
+    image: redis
+    networks:
+      - app-network
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+    networks:
+      - app-network
+    depends_on:
+      - "redis"
+networks:
+  app-network:

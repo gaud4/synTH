@@ -1,0 +1,40 @@
+{
+    "name": "signaling-server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsc",
+        "dev": "nodemon --legacy-watch app.ts",
+        "prod": "NODE_ENV=production node ./build/app.js",
+        "heroku:push": "heroku container:push web --app=synTH-roomserver",
+        "heroku:release": "heroku container:release web --app=synTH-roomserver",
+        "heroku:redis:cli": "heroku redis:cli -a synTH-roomserver --confirm synTH-roomserver"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "cookie-parser": "^1.4.5",
+        "cors": "2.8.5",
+        "crypto": "^1.0.1",
+        "express": "^4.17.1",
+        "express-session": "^1.17.0",
+        "peer": "^0.5.1",
+        "redis": "^3.0.2",
+        "socket.io": "^2.3.0"
+    },
+    "devDependencies": {
+        "@types/cookie-parser": "^1.4.2",
+        "@types/cors": "2.8.12",
+        "@types/express-session": "^1.17.0",
+        "@types/redis": "^2.8.16",
+        "@types/node": "^12.12.2",
+        "@types/socket.io": "^1.4.33",
+        "@types/express": "^4.11.1",
+        "nodemon": "^2.0.2",
+        "ts-node": "^8.6.2",
+        "typescript": "^3.7.5"
+    }
+}
